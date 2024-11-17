@@ -16,4 +16,8 @@ class Course extends Model
     public function categories() {
         return $this->belongsToMany(Category::class);
     }
+
+    public function annotations() {
+        return $this->hasMany(Annotation::class);
+    }
 }

@@ -7,7 +7,7 @@
     </div>
 
     <div class="row p-3">
-        {{-- <div class="col-6">@livewire('l-user')</div> --}}
+        <div class="col-6">@livewire('l-annotation')</div>
         {{-- <div class="col-6">@livewire('l-role')</div> --}}
     </div>
     
