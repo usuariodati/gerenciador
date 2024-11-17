@@ -13,4 +13,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/admin', function () {
     return view('admin');
-});
+})->middleware('role:admin');
+
+Route::get('/form', function () {
+    return view('form');
+})->middleware('role:admin|usuario');
