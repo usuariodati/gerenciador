@@ -13,16 +13,16 @@
                 @enderror
             </div>
 
-            @forelse ($permissions as $permission)
+            @forelse ($categories as $category)
                 <div class="form-check">
-                    <input type="checkbox" id="permission_{{ $permission->id }}"
-                        class="form-check-input" wire:model="selectedPermissions"
-                        value="{{ $permission->name }}"
-                        @if(in_array($permission->name, $selectedPermissions)) checked @endif>
-                    <label for="permission_{{ $permission->id }}" class="form-check-label">{{ $permission->name }}</label>
+                    <input type="checkbox" id="category_{{ $category->id }}"
+                        class="form-check-input" wire:model="selectedCategories"
+                        value="{{ $category->id }}"
+                        @if(in_array($category->id, $selectedCategories)) checked @endif>
+                    <label for="category_{{ $category->id }}" class="form-check-label">{{ $category->name }}</label>
                 </div>
             @empty
-                sem permissões
+                sem perfis
             @endforelse
 
             <div class="mt-3 d-flex justify-content-evenly">
@@ -41,29 +41,29 @@
             <tr>
                 <th>#</th>
                 <th>Nome</th>
-                <th>Permissões</th>
+                <th>Categorias</th>
                 <th>editar</th>
                 <th>excluir</th>
             </tr>
         </thead>
 
         <tbody>
-            @forelse ($roles as $role)
+            @forelse ($courses as $course)
                 <tr>
-                    <td>{{ $role->id }}</td>
-                    <td>{{ $role->name }}</td>
+                    <td>{{ $course->id }}</td>
+                    <td>{{ $course->name }}</td>
                     <td>
-                        @forelse ($role->permissions as $permission)
-                            {{ $permission->name }} @if(!$loop->last), @endif
+                        @forelse ($course->platforms as $platform)
+                            {{ $platform->name }} @if(!$loop->last), @endif
                         @empty
-                            sem permissões
+                            sem categorias
                         @endforelse
                     </td>
                     <td>
-                        <button class="btn btn-warning" wire:click="edit({{ $role->id }})">Editar</button>
+                        <button class="btn btn-warning" wire:click="edit({{ $course->id }})">Editar</button>
                     </td>
                     <td>
-                        <button class="btn btn-danger" wire:click="edit({{ $role->id }})">Excluir</button>
+                        <button class="btn btn-danger" wire:click="edit({{ $course->id }})">Excluir</button>
                     </td>
                 </tr>
             @empty
@@ -72,5 +72,5 @@
         </tbody>
     </table>
 
-    {{ $roles->links(data: ['scrollTo' => false]) }}
+    {{ $courses->links(data: ['scrollTo' => false]) }}
 </div>

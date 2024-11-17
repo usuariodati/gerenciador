@@ -13,18 +13,6 @@
                 @enderror
             </div>
 
-            @forelse ($permissions as $permission)
-                <div class="form-check">
-                    <input type="checkbox" id="permission_{{ $permission->id }}"
-                        class="form-check-input" wire:model="selectedPermissions"
-                        value="{{ $permission->name }}"
-                        @if(in_array($permission->name, $selectedPermissions)) checked @endif>
-                    <label for="permission_{{ $permission->id }}" class="form-check-label">{{ $permission->name }}</label>
-                </div>
-            @empty
-                sem permissões
-            @endforelse
-
             <div class="mt-3 d-flex justify-content-evenly">
                 <button type="submit" class="btn btn-primary">Salvar</button>
                 <button type="button" class="btn btn-secondary" wire:click="close">Cancelar</button>
@@ -41,29 +29,21 @@
             <tr>
                 <th>#</th>
                 <th>Nome</th>
-                <th>Permissões</th>
                 <th>editar</th>
                 <th>excluir</th>
             </tr>
         </thead>
 
         <tbody>
-            @forelse ($roles as $role)
+            @forelse ($plataforms as $plataform)
                 <tr>
-                    <td>{{ $role->id }}</td>
-                    <td>{{ $role->name }}</td>
+                    <td>{{ $plataform->id }}</td>
+                    <td>{{ $plataform->name }}</td>
                     <td>
-                        @forelse ($role->permissions as $permission)
-                            {{ $permission->name }} @if(!$loop->last), @endif
-                        @empty
-                            sem permissões
-                        @endforelse
+                        <button class="btn btn-warning" wire:click="edit({{ $plataform->id }})">Editar</button>
                     </td>
                     <td>
-                        <button class="btn btn-warning" wire:click="edit({{ $role->id }})">Editar</button>
-                    </td>
-                    <td>
-                        <button class="btn btn-danger" wire:click="edit({{ $role->id }})">Excluir</button>
+                        <button class="btn btn-danger" wire:click="edit({{ $plataform->id }})">Excluir</button>
                     </td>
                 </tr>
             @empty
@@ -72,5 +52,5 @@
         </tbody>
     </table>
 
-    {{ $roles->links(data: ['scrollTo' => false]) }}
+    {{ $plataforms->links(data: ['scrollTo' => false]) }}
 </div>

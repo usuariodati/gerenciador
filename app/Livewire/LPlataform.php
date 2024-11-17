@@ -2,12 +2,13 @@
 
 namespace App\Livewire;
 
-use App\Models\Category;
+use App\Models\Plataform;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class LCategory extends Component
+class LPlataform extends Component
 {
+
     use WithPagination;
 
     public $category_id;
@@ -19,13 +20,12 @@ class LCategory extends Component
         $this->resetPage();
     }
 
-
     public function render()
     {
-        $categories = Category::where('name', 'like', '%'.$this->query.'%')
-            ->orderBy('id', 'asc')->paginate(5, ['*'], 'CategoryPage');
-        return view('livewire.l-category', compact(
-            'categories'
+        $plataforms = Plataform::where('name', 'like', '%'.$this->query.'%')
+            ->orderBy('id', 'asc')->paginate(5, ['*'], 'PlataformPage');
+        return view('livewire.l-plataform', compact(
+            'plataforms'
         ));
     }
 
@@ -51,27 +51,27 @@ class LCategory extends Component
             'name.required' => 'Campo obrigatório',
         ]);
 
-        Category::updateOrCreate(['id' => $this->category_id], [
+        Plataform::updateOrCreate(['id' => $this->category_id], [
             'name' => $this->name,
         ]);
 
-        session()->flash('success', $this->category_id ? 'Category updated' : 'Category cretad');
+        session()->flash('success', $this->category_id ? 'Plataform updated' : 'Plataform cretad');
         $this->close();
     }
 
     public function edit($id) {
-        $category = Category::findOrFail($id);
+        $plataform = Plataform::findOrFail($id);
 
-        $this->category_id = $category->id;
-        $this->name = $category->name;
+        $this->category_id = $plataform->id;
+        $this->name = $plataform->name;
 
         $this->open = true;
     }
 
     public function delete($id) {
-        $category = Category::findOrFail($id);
-        $category->delete();
+        $plataform = Plataform::findOrFail($id);
+        $plataform->delete();
 
-        session()->flash('Category removed!');
+        session()->flash('Plataform removed!');
     }
 }

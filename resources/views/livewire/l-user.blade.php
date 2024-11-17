@@ -22,7 +22,7 @@
                     <label for="role_{{ $role->id }}" class="form-check-label">{{ $role->name }}</label>
                 </div>
             @empty
-                
+                sem perfis
             @endforelse
 
             <div class="mt-3 d-flex justify-content-evenly">

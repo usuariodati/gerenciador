@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class Plataform extends Model
 {
-    protected $table = 'categories';
+    protected $table = 'plataforms';
     protected $fillable = ['name'];
 
     public function courses() {
-        return $this->belongsToMany(Course::class);
+        return $this->hasMany(Course::class);
     }
 }
