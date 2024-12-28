@@ -1,15 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row p-3">
-        <div class="col-6">@livewire('l-plataform')</div>
-        <div class="col-6">@livewire('l-course')</div>
-    </div>
+        <div class="mt-3 p-3">@livewire('l-plataform')</div>
+        <div class="mt-3 p-3">@livewire('l-course')</div>
 
-    <div class="row p-3">
-        <div class="col-6">@livewire('l-annotation')</div>
-        {{-- <div class="col-6">@livewire('l-role')</div> --}}
-    </div>
+        <div class="mt-3 p-3">@livewire('l-annotation')</div>
+        {{-- <div class="mt-3 p-3">@livewire('l-role')</div> --}}
     
     @hasrole('admin')
         <div class="p-3">

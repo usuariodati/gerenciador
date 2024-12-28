@@ -23,9 +23,9 @@ class LAnnotation extends Component
 
     public function render()
     {
-        $annotations = Annotation::with('courses')
+        $annotations = Annotation::with('course')
             ->when($this->courseQuery, function($query) {
-                $query->whereHas('courses', function($courseQuery) {
+                $query->whereHas('course', function($courseQuery) {
                     $courseQuery->where('module', 'like', '%'.$this->courseQuery.'%');
                 });
             })
@@ -68,7 +68,7 @@ class LAnnotation extends Component
             'course_id.required' => 'Campo obrigatório',
         ]);
 
-        $course = Course::updateOrCreate(['id' => $this->annotation_id], [
+        Annotation::updateOrCreate(['id' => $this->annotation_id], [
             'module' => $this->module,
             'title' => $this->title,
             'content' => $this->content,
@@ -81,20 +81,20 @@ class LAnnotation extends Component
     }
 
     public function edit($id) {
-        $course = Course::findOrFail($id);
+        $annotation = Annotation::findOrFail($id);
 
-        $this->annotation_id = $course->id;
-        $this->module = $course->module;
-        $this->title = $course->title;
-        $this->content = $course->content;
-        $this->course_id = $course->course_id;
+        $this->annotation_id = $annotation->id;
+        $this->module = $annotation->module;
+        $this->title = $annotation->title;
+        $this->content = $annotation->content;
+        $this->course_id = $annotation->course_id;
 
         $this->open = true;
     }
 
     public function delete($id) {
-        $course = Course::findOrFail($id);
-        $course->delete();
+        $annotation_id = Annotation::findOrFail($id);
+        $annotation_id->delete();
 
         session()->flash('Course removed!');
     }

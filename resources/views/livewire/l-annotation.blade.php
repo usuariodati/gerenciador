@@ -12,10 +12,25 @@
         @endif
 
         @if ($open)
+            <div class="form-floating mt-3">
+                <select id="course_id" class="form-select" wire:model="course_id">
+                    <option>Selecione um curso</option>
+                    @forelse ($courses as $course)
+                        <option value="{{ $course->id }}">{{ $course->name }}</option>
+                    @empty
+                        <option>Sem cursos</option>
+                    @endforelse
+                </select>
+                <label for="course_id">Nome<span class="text-danger">*</span></label>
+                @error('course_id')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
+            </div>
+        
             <form class="mt-3" wire:submit.prevent="store">
                 <div class="form-floating mt-3">
                     <input type="text" id="module" class="form-control" wire:model.defer="module">
-                    <label for="module">Nome<span class="text-danger">*</span></label>
+                    <label for="module">Módulo<span class="text-danger">*</span></label>
                     @error('module')
                         <p class="text-danger">{{ $message }}</p>
                     @enderror
@@ -23,31 +38,16 @@
 
                 <div class="form-floating mt-3">
                     <input type="text" id="title" class="form-control" wire:model.defer="title">
-                    <label for="title">Nome<span class="text-danger">*</span></label>
+                    <label for="title">Aula<span class="text-danger">*</span></label>
                     @error('title')
                         <p class="text-danger">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <div class="form-floating mt-3">
-                    <textarea id="content" cols="30" rows="10" class="form-control" name="content"></textarea>
-                    <label for="content">Nome<span class="text-danger">*</span></label>
+                    <textarea id="content" cols="30" rows="10" class="form-control" wire:model="content"></textarea>
+                    <label for="content">Conteúdo<span class="text-danger">*</span></label>
                     @error('content')
-                        <p class="text-danger">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div class="form-floating mt-3">
-                    <select id="course_id" class="form-select" name="course_id">
-                        <option>Selecione um curso</option>
-                        @forelse ($courses as $course)
-                            <option value="{{ $course->id}}">{{ $course->name }}</option>
-                        @empty
-                            <option>Sem cursos</option>
-                        @endforelse
-                    </select>
-                    <label for="course_id">Nome<span class="text-danger">*</span></label>
-                    @error('course_id')
                         <p class="text-danger">{{ $message }}</p>
                     @enderror
                 </div>
@@ -59,7 +59,7 @@
             </form>
         @endif
 
-        <input type="text" class="form-control mt-3" wire:model.live="query">
+        <input type="text" class="form-control mt-3" wire:model.live="courseQuery">
 
         <table class="mt-3 table table-striped table-bordered">
             <thead>
@@ -79,13 +79,14 @@
                     <tr>
                         <td>{{ $annotation->id }}</td>
                         <td>{{ $annotation->course->name }}</td>
-                        <td>{{ $annotation->module }}></td>
-                        <td>{{ $annotation->title }}></td>
+                        <td>{{ $annotation->module }}</td>
+                        <td>{{ $annotation->title }}</td>
+                        <td>{{ $annotation->content }}</td>
                         <td>
-                            <button class="btn btn-warning" wire:click="edit({{ $course->id }})">Editar</button>
+                            <button class="btn btn-warning" wire:click="edit({{ $annotation->id }})">Editar</button>
                         </td>
                         <td>
-                            <button class="btn btn-danger" wire:click="edit({{ $course->id }})">Excluir</button>
+                            <button class="btn btn-danger" wire:click="edit({{ $annotation->id }})">Excluir</button>
                         </td>
                     </tr>
                 @empty

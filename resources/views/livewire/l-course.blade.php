@@ -5,16 +5,16 @@
             <button class="btn btn-primary" wire:click="create">Criar</button>
         </div>
     </div>
-    
-    @if (session()->has('success'))
-        <p class="alert alert-success">{{ session('success') }}</p>
-    @endif
 
     <div class="card-body">
+        @if (session()->has('success'))
+            <p class="alert alert-success">{{ session('success') }}</p>
+        @endif
+        
         @if ($open)
             <form class="mt-3" wire:submit.prevent="store">
                 <div class="form-floating mt-3">
-                    <select id="course_id" class="form-select" name="course_id">
+                    <select id="plataform_id" class="form-select" wire:model="plataform_id">
                         <option>Selecione plataforma</option>
                         @forelse ($plataforms as $plataform)
                             <option value="{{ $plataform->id}}">{{ $plataform->name }}</option>
@@ -37,9 +37,33 @@
                 </div>
 
                 <div class="form-floating mt-3">
-                    <input type="text" id="name" class="form-control" wire:model.defer="name">
-                    <label for="name">Nome<span class="text-danger">*</span></label>
-                    @error('name')
+                    <input type="text" id="total_modules" class="form-control" wire:model.defer="total_modules">
+                    <label for="total_modules">Total de Módulos<span class="text-danger">*</span></label>
+                    @error('total_modules')
+                        <p class="text-danger">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="form-floating mt-3">
+                    <input type="text" id="total_classes" class="form-control" wire:model.defer="total_classes">
+                    <label for="total_classes">Total de Aulas<span class="text-danger">*</span></label>
+                    @error('total_classes')
+                        <p class="text-danger">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="form-floating mt-3">
+                    <input type="text" id="done_modules" class="form-control" wire:model.defer="done_modules">
+                    <label for="done_modules">Módulos feitos<span class="text-danger">*</span></label>
+                    @error('done_modules')
+                        <p class="text-danger">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="form-floating mt-3">
+                    <input type="text" id="done_classes" class="form-control" wire:model.defer="done_classes">
+                    <label for="done_classes">Aulas feitas<span class="text-danger">*</span></label>
+                    @error('done_classes')
                         <p class="text-danger">{{ $message }}</p>
                     @enderror
                 </div>
@@ -70,7 +94,12 @@
                 <tr>
                     <th>#</th>
                     <th>Nome</th>
+                    <th>Plataforma</th>
                     <th>Categorias</th>
+                    <th>Total de módulos</th>
+                    <th>Total de aulas</th>
+                    <th>módulos feitos</th>
+                    <th>aulas feitas</th>
                     <th>editar</th>
                     <th>excluir</th>
                 </tr>
@@ -80,14 +109,21 @@
                 @forelse ($courses as $course)
                     <tr>
                         <td>{{ $course->id }}</td>
-                        <td>{{ $course->name }}</td>
+                        <td>{{ Str::limit($course->name, 30) }}</td>
                         <td>
-                            @forelse ($course->platforms as $platform)
-                                {{ $platform->name }} @if(!$loop->last), @endif
+                            {{ $course->plataform->name }}
+                        </td>
+                        <td>
+                            @forelse ($course->categories as $category)
+                                {{ $category->name }} @if(!$loop->last), @endif
                             @empty
                                 sem categorias
                             @endforelse
                         </td>
+                        <td>{{ $course->total_modules }}</td>
+                        <td>{{ $course->total_classes }}</td>
+                        <td>{{ $course->done_modules }}</td>
+                        <td>{{ $course->done_classes }}</td>
                         <td>
                             <button class="btn btn-warning" wire:click="edit({{ $course->id }})">Editar</button>
                         </td>
@@ -96,7 +132,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="5">Sem registros</td></tr>
+                    <tr><td colspan="9">Sem registros</td></tr>
                 @endforelse
             </tbody>
         </table>

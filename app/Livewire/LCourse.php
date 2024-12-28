@@ -25,7 +25,10 @@ class LCourse extends Component
 
     public function render()
     {
-        $courses = Course::where('name', 'like', '%'.$this->query.'%')
+        $courses = Course::with('plataform')->where('name', 'like', '%'.$this->query.'%')
+            // ->orWhereHas('plataform', function($query) {
+            //     $query->where('name', 'like', '%'.$this->query.'%');
+            // })
             ->orderBy('id', 'asc')->paginate(5, ['*'], 'CoursePage');
         $plataforms = Plataform::all();
         $categories = Category::all();
@@ -94,12 +97,13 @@ class LCourse extends Component
 
         $this->course_id = $course->id;
         $this->name = $course->name;
+        $this->plataform_id = $course->plataform_id;
         $this->total_modules = $course->total_modules;
         $this->total_classes = $course->total_classes;
         $this->done_modules = $course->done_modules;
         $this->done_classes = $course->done_classes;
 
-        $course->categories()->pluck('id')->toArray();
+        $this->selectedCategories = $course->categories()->pluck('id')->toArray();
 
         $this->open = true;
     }

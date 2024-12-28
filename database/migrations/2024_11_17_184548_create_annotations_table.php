@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('annotations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('course_Id')->constrained('courses')->cascadeOnDelete();
+            $table->foreignId('course_id')->constrained('courses')->cascadeOnDelete();
             $table->integer('module');
             $table->integer('title');
             $table->text('content');

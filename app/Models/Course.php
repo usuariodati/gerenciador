@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
     protected $table = 'courses';
-    protected $fillable = ['platform_id', 'name', 'total_modules', 'total_classes', 'done_modules', 'done_classes'];
+    protected $fillable = ['plataform_id', 'name', 'total_modules', 'total_classes', 'done_modules', 'done_classes'];
 
-    public function platform() {
+    public function plataform() {
         return $this->belongsTo(Plataform::class);
     }
 
